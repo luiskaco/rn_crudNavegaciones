@@ -1,0 +1,1 @@
+Practica de crud de react Native con navegacon
