@@ -1,0 +1,32 @@
+{
+  "clientes": [
+    {
+      "nombre": "Luis ",
+      "telefono": "Gome",
+      "correo": "Luiskaco@gmail.com",
+      "empresa": "Luis gome",
+      "id": 1
+    },
+    {
+      "nombre": "Luis ",
+      "telefono": "Gome",
+      "correo": "Luiskaco@gmail.com",
+      "empresa": "Luis gome",
+      "id": 2
+    },
+    {
+      "nombre": "Estefania",
+      "telefono": "93747474",
+      "correo": "Luiskaco@gmail.com",
+      "empresa": "Proband",
+      "id": 3
+    },
+    {
+      "nombre": "Mina",
+      "telefono": "82737371",
+      "correo": "Mina2021@hotmail.com",
+      "empresa": "Navegador",
+      "id": 4
+    }
+  ]
+}

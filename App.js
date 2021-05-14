@@ -29,8 +29,11 @@ import DetalleCliente from './views/detalleCliente';
 // Componentes
 import BarraSuperior from './components/ui/barra';
 
+// Corrigiendo el error de nombrar el provider
+import {SafeAreaProvider} from 'react-native-safe-area-context';
+
 // Importando UI
-import {DefaultTheme, Provider as PapersProvider} from 'react-native-paper';
+import {DefaultTheme, Provider } from 'react-native-paper';
 
 // Definiendo theme
 const theme = {
@@ -44,14 +47,13 @@ const theme = {
 
 // console.log(theme.colors.primary);
 //console.log(theme.colors)
-
-
 const App = () => {
  
   return (
     <>
-        <PapersProvider>{/* NOta: Importante para paper funcione bien los eventos */}
-
+        <SafeAreaProvider>
+          {/* NOta: Importante para paper funcione bien los */}
+          <Provider theme={theme}> 
        
 
           <NavigationContainer>
@@ -111,8 +113,8 @@ const App = () => {
             </Stack.Navigator>
           </NavigationContainer>
 
-
-          </PapersProvider>
+            </Provider>
+          </SafeAreaProvider>
     </>
   );
 };

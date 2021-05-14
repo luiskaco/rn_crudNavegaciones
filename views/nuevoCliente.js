@@ -1,5 +1,8 @@
 import React,{useState} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, Platform} from 'react-native';
+
+// Importando axios
+import axios from 'axios';
 
 // Importando paper
 import {TextInput, Headline, Button, Paragraph, Dialog, Portal} from 'react-native-paper';
@@ -8,7 +11,7 @@ import {TextInput, Headline, Button, Paragraph, Dialog, Portal} from 'react-nati
 // Importando extilos globales
 import globalStyles from '../styles/global';
 
-const NuevoCliente = () => {
+const NuevoCliente = ({navigation}) => {
 
     const [nombre, setNombre] = useState('');
     const [telefono, setTelefono] = useState('');
@@ -20,7 +23,7 @@ const NuevoCliente = () => {
 
     
     // Guardar Clientes
-    const guardarCliente = () => {
+    const guardarCliente = async () => {
         // Validar
         if(nombre.trim() === '' || telefono.trim() === '' || correo.trim() === '' || empresa.trim() === ''){
             // console.log('No pueden quedar vacios');
@@ -29,16 +32,40 @@ const NuevoCliente = () => {
         }
 
         // Generar Clientes
-
+        const cliente = {nombre,telefono,correo,empresa};
+        console.log(cliente)
 
         // Guardar cliente en el api
+            try {
+                
+                if(Platform.OS === 'ios'){
+                    // Para IOS
+                    await axios.post('http://localhost:3000/clientes', cliente);
+                    /*
+                        nota: para ios es el local host que te de tu api
+                    */
+                }else{
+                    // Para Android
+                    await axios.post('http://192.168.1.2:3000/clientes', cliente);
+                    /**
+                     *  Nota:  para android es el localhost que tiene tu maquina
+                     */
+                }
+      
+            } catch (error) {
+                console.log(error)
+            }
 
+            // console.log('Guardado correctamente')
 
-        // Redirecconar
+            // Redirecconar
+            navigation.navigate('inicio');
 
-
-        // limpiar el form (opcional)
-        console.log('Guardar Cliente')
+             // limpiar el form (opcional)
+            setNombre('');
+            setTelefono('');
+            setcorreo('');
+            setEmpresa('');
     }
 
     return ( 
@@ -49,36 +76,33 @@ const NuevoCliente = () => {
             > Añadir Nuevo Cliente
             </Headline>
 
-            <TextInput 
-                label = "Nombre"
-                placeholder="Escribir tu nombre"
-                onChangeText={texto => setNombre(texto)}
-                style={styles.input}
+            <TextInput
+                label="Nombre"
+                placeholder="Juan"
+                onChangeText={ texto => setNombre(texto) }
                 value={nombre}
-            />
-            
-            <TextInput 
-                label = "Correo"
-                placeholder="Ejemplo: correo@correo.com"
-                onChangeText={(texto) => setcorreo(texto)}
                 style={styles.input}
+            />
+            <TextInput
+                label="Teléfono"
+                placeholder="13131414"
+                onChangeText={ texto => setTelefono(texto) }
                 value={telefono}
-            />
-
-            <TextInput 
-                label = "Empresa"
-                placeholder="Escribir tu empresa"
-                onChangeText={(texto) => setEmpresa(texto)}
                 style={styles.input}
+            />
+            <TextInput
+                label="Correo"
+                placeholder="correo@correo.com"
+                onChangeText={ texto => setcorreo(texto) }
                 value={correo}
-            />
-
-            <TextInput 
-                label = "Teléfono"
-                placeholder="Escribir tu teléfono"
                 style={styles.input}
-                onChangeText={(texto) => setTelefono(texto)}
+            />
+            <TextInput
+                label="Empresa"
+                placeholder="Nombre Empresa"
+                onChangeText={ texto => setEmpresa(texto) }
                 value={empresa}
+                style={styles.input}
             />
 
             <Button  
@@ -91,7 +115,10 @@ const NuevoCliente = () => {
             {/* // Alerta */}
             <Portal>
                 <Dialog
-                    visible={alerta}
+                    // Pros del dialog
+                    visible={alerta} // nota: propiedad por default es false para mantener oculto
+
+                    onDismiss={() =>  setAlerta(false)} //nota:  Usamos onDismiss para ocultar en cualquier espacio de pantalla que se toque 
                 >
                     <Dialog.Title>Error</Dialog.Title>
                     <Dialog.Content>
@@ -99,7 +126,7 @@ const NuevoCliente = () => {
                         {/* Nota: paragraps hace los texto pequeños */}
                     </Dialog.Content>
                     <Dialog.Actions>
-                        <Button>Ok</Button>
+                        <Button onPress={() => setAlerta(false)}>Ok</Button>
                     </Dialog.Actions>
                 </Dialog>
             </Portal>
