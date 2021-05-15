@@ -47,6 +47,7 @@ const theme = {
 
 // console.log(theme.colors.primary);
 //console.log(theme.colors)
+
 const App = () => {
  
   return (
@@ -84,12 +85,12 @@ const App = () => {
                     ({navigation, route}) => ({  // Destructurin
 
                           //  Pasar props al componente
-                      headerLeft: (props) => <BarraSuperior  
-                                              {...props} // COpia de los props proveniente d ela nevacion
-                                              navigation={navigation}
-                                              route={route}
+                      // headerLeft: (props) => <BarraSuperior  
+                      //                         {...props} // COpia de los props proveniente d ela nevacion
+                      //                         navigation={navigation}
+                      //                         route={route}
                                               
-                                              />
+                      //                         />
                     })
                   }
               />

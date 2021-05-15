@@ -11,7 +11,11 @@ import {TextInput, Headline, Button, Paragraph, Dialog, Portal} from 'react-nati
 // Importando extilos globales
 import globalStyles from '../styles/global';
 
-const NuevoCliente = ({navigation}) => {
+const NuevoCliente = ({navigation ,route}) => {   // route: esta capturando todo loq ue es enviado por navigate
+    // console.log(route.params);
+    // Extraemos funcion proveniente del route
+
+    const { setConsultarAPI } = route.params;
 
     const [nombre, setNombre] = useState('');
     const [telefono, setTelefono] = useState('');
@@ -66,6 +70,9 @@ const NuevoCliente = ({navigation}) => {
             setTelefono('');
             setcorreo('');
             setEmpresa('');
+
+            // Cambiar a true mpara traernos el nuevo cliente
+            setConsultarAPI(true);
     }
 
     return ( 
@@ -78,14 +85,14 @@ const NuevoCliente = ({navigation}) => {
 
             <TextInput
                 label="Nombre"
-                placeholder="Juan"
+                placeholder="ingresar su nombre"
                 onChangeText={ texto => setNombre(texto) }
                 value={nombre}
                 style={styles.input}
             />
             <TextInput
                 label="Teléfono"
-                placeholder="13131414"
+                placeholder="Ingresar su numero de telefono"
                 onChangeText={ texto => setTelefono(texto) }
                 value={telefono}
                 style={styles.input}
@@ -99,7 +106,7 @@ const NuevoCliente = ({navigation}) => {
             />
             <TextInput
                 label="Empresa"
-                placeholder="Nombre Empresa"
+                placeholder="ingresar nombre Empresa"
                 onChangeText={ texto => setEmpresa(texto) }
                 value={empresa}
                 style={styles.input}
