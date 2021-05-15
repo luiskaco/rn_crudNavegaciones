@@ -2,7 +2,7 @@ import React from 'react';
 import { View , StyleSheet, Alert} from 'react-native';
 
 // Importando paper
-import { Headline, Text , Subheading , Button} from 'react-native-paper';
+import { Headline, Text , Subheading , Button, FAB} from 'react-native-paper';
 
 // Importando global
 import globalStyles from '../styles/global';
@@ -69,6 +69,18 @@ const DetalleCliente = ({navigation, route}) => {
             >
                 Eliminar Cliente
             </Button>
+
+
+            {/* // Agregando boton  fab*/}
+            <FAB 
+                icon="pencil"
+                style={globalStyles.fab}
+                onPress={() => navigation.navigate('NuevoCliente', {cliente: route.params.item ,setConsultarAPI})}
+                //  nota: pasamos el objeto cliente
+
+                >
+
+            </FAB>
 
         </View>
      );

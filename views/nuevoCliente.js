@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState, useEffect} from 'react';
 import {View, StyleSheet, Platform} from 'react-native';
 
 // Importando axios
@@ -12,7 +12,7 @@ import {TextInput, Headline, Button, Paragraph, Dialog, Portal} from 'react-nati
 import globalStyles from '../styles/global';
 
 const NuevoCliente = ({navigation ,route}) => {   // route: esta capturando todo loq ue es enviado por navigate
-    // console.log(route.params);
+   // console.log(route.params);
     // Extraemos funcion proveniente del route
 
     const { setConsultarAPI } = route.params;
@@ -26,6 +26,22 @@ const NuevoCliente = ({navigation ,route}) => {   // route: esta capturando todo
     const [alerta, setAlerta] = useState(false);
 
     
+    // Detectar si estamos editando
+    useEffect(() => {
+        if(route.params.cliente){
+            console.log(`Estamos Editando`);
+            const { nombre, telefono, correo, empresa, id} = route.params.cliente;
+            //Enviando al state
+            setNombre(nombre);
+            setTelefono(telefono);
+            setcorreo(correo);
+            setEmpresa(empresa);
+        }
+
+    }, [])
+
+
+
     // Guardar Clientes
     const guardarCliente = async () => {
         // Validar
@@ -37,30 +53,60 @@ const NuevoCliente = ({navigation ,route}) => {   // route: esta capturando todo
 
         // Generar Clientes
         const cliente = {nombre,telefono,correo,empresa};
-        console.log(cliente)
+        // console.log(cliente)
 
-        // Guardar cliente en el api
-            try {
+
+        // Si Estamos editando o creando
+            if(route.params.cliente){
+                // Editando
                 
-                if(Platform.OS === 'ios'){
-                    // Para IOS
-                    await axios.post('http://localhost:3000/clientes', cliente);
-                    /*
-                        nota: para ios es el local host que te de tu api
-                    */
-                }else{
-                    // Para Android
-                    await axios.post('http://192.168.1.2:3000/clientes', cliente);
-                    /**
-                     *  Nota:  para android es el localhost que tiene tu maquina
-                     */
-                }
-      
-            } catch (error) {
-                console.log(error)
-            }
+                // Extraemos ID
+                const { id } = route.params.cliente;
 
-            // console.log('Guardado correctamente')
+                // Asignamos el id
+                cliente.id = id;
+
+                const url= `http://192.168.1.2:3000/clientes/${id}`; 
+
+                // console.log(url)
+
+                try {
+                    
+                    await axios.put(url ,cliente);
+                } catch (error) {
+                    console.log(error)
+                }
+
+
+
+            }else{
+                // Creando
+
+                    // Guardar cliente en el api
+                    try {
+                        
+                        if(Platform.OS === 'ios'){
+                            // Para IOS
+                            await axios.post('http://localhost:3000/clientes', cliente);
+                            /*
+                                nota: para ios es el local host que te de tu api
+                            */
+                        }else{
+                            // Para Android
+                            await axios.post('http://192.168.1.2:3000/clientes', cliente);
+                            /**
+                             *  Nota:  para android es el localhost que tiene tu maquina
+                             */
+                        }
+            
+                    } catch (error) {
+                        console.log(error)
+                    }
+
+                    // console.log('Guardado correctamente')
+            }// Cirre el else
+
+         
 
             // Redirecconar
             navigation.navigate('inicio');
